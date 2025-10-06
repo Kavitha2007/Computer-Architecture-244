@@ -1,0 +1,13 @@
+def add_sub(a, b, operation='add', signed=True):
+    if not signed:
+        a &= 0xFFFFFFFF
+        b &= 0xFFFFFFFF
+    if operation == 'add':
+        result = a + b
+    else:
+        result = a - b
+    if signed:
+        result = (result + 2**32) % 2**32 if result < 0 else result % 2**32
+    else:
+        result &= 0xFFFFFFFF
+    return result
