@@ -1,0 +1,25 @@
+def booths_multiply(m, r, bits=8):
+    def twos_complement(val, bits):
+        if val < 0:
+            val = (1 << bits) + val
+        return val & ((1 << bits) - 1)
+    def get_signed(val, bits):
+        if val & (1 << (bits - 1)):
+            val -= (1 << bits)
+        return val
+    m = get_signed(m, bits)
+    r = get_signed(r, bits)
+    A = m << bits
+    S = (-m & ((1 << bits) - 1)) << bits
+    P = r & ((1 << bits) - 1)
+    P = P | (0 << (bits * 2))
+    P = P << 1
+    for _ in range(bits):
+        if P & 0b11 == 0b01:
+            P = (P + A) & ((1 << (2 * bits + 1)) - 1)
+        elif P & 0b11 == 0b10:
+            P = (P + S) & ((1 << (2 * bits + 1)) - 1)
+        P >>= 1
+    if P & (1 << (2 * bits - 1)):
+        P = P - (1 << (2 * bits))
+    return P
