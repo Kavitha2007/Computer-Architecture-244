@@ -1,0 +1,15 @@
+def bit_multiplication(a, b, signed=True):
+    if signed:
+        neg = (a < 0) ^ (b < 0)
+        a = abs(a)
+        b = abs(b)
+    result = 0
+    shift = 0
+    while b:
+        if b & 1:
+            result += a << shift
+        b >>= 1
+        shift += 1
+    if signed and neg:
+        result = -result
+    return result
