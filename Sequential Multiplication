@@ -1,0 +1,11 @@
+def sequential_multiply(a, b, signed=True):
+    if signed:
+        neg = (a < 0) ^ (b < 0)
+        a = abs(a)
+        b = abs(b)
+    result = 0
+    for _ in range(b):
+        result += a
+    if signed and neg:
+        result = -result
+    return result
