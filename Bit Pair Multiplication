@@ -1,0 +1,18 @@
+def bit_pair_multiplication(a, b, signed=True):
+    if signed:
+        neg = (a < 0) ^ (b < 0)
+        a = abs(a)
+        b = abs(b)
+    result = 0
+    b_bin = bin(b)[2:][::-1] + '0'
+    for i in range(0, len(b_bin) - 1, 2):
+        pair = b_bin[i:i+2]
+        if pair == '01':
+            result += a << i
+        elif pair == '10':
+            result += a << (i + 1)
+        elif pair == '11':
+            result += (a << i) + (a << (i + 1))
+    if signed and neg:
+        result = -result
+    return result
