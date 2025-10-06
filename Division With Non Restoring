@@ -1,0 +1,20 @@
+def non_restoring_division(dividend, divisor, bits=8, signed=True):
+    if signed:
+        neg = (dividend < 0) ^ (divisor < 0)
+        dividend = abs(dividend)
+        divisor = abs(divisor)
+    A = 0
+    Q = dividend
+    M = divisor
+    for _ in range(bits):
+        A = (A << 1) | ((Q >> (bits - 1)) & 1)
+        Q = (Q << 1) & ((1 << bits) - 1)
+        if A >= 0:
+            A -= M
+        else:
+            A += M
+        if A >= 0:
+            Q |= 1
+    if signed and neg:
+        Q = -Q
+    return Q
